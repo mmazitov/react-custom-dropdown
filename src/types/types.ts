@@ -43,6 +43,7 @@ export interface BaseDropdownProps {
 		selected: DropdownItems | DropdownItems[] | null,
 	) => React.ReactNode;
 	styles?: DropdownItemsStyle;
+	clearable?: boolean; // Optional clear selection button
 }
 
 /**

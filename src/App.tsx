@@ -39,6 +39,7 @@ const App: React.FC = () => {
 				placeholder="Pick a fruit..."
 				emptyValue="Empty"
 				styles={dropdownStyles}
+				clearable
 			/>
 
 			<h2 className="font-semibold text-xl">Multi Select</h2>
@@ -51,6 +52,7 @@ const App: React.FC = () => {
 				placeholder="Select multiple fruits..."
 				emptyValue="Empty"
 				styles={dropdownStyles}
+				clearable
 			/>
 		</div>
 	);

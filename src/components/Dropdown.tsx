@@ -1,21 +1,22 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { DropdownItems, DropdownProps } from '../types/types';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
- * Dropdown component that supports both single and multi-select functionality
- * with customizable rendering and styling options.
+ * Enhanced Dropdown component that supports both single- and multi-select functionality,
+ * with customizable rendering, styling options, and an optional clear selection button.
  *
- * @param options - Array of selectable options with label and value
- * @param value - Currently selected value(s)
- * @param onChange - Callback function triggered when selection changes
- * @param placeholder - Text displayed when no option is selected
- * @param multiSelect - When true, allows selecting multiple options
- * @param className - Additional CSS classes for the dropdown container
- * @param emptyValue - Text displayed when options array is empty
- * @param renderOption - Custom renderer for option items
- * @param renderValue - Custom renderer for selected value(s)
- * @param disabled - When true, disables the dropdown interaction
- * @param styles - Custom styling for dropdown elements
+ * @param options - Array of selectable options with label and value.
+ * @param value - Currently selected value(s).
+ * @param onChange - Callback function triggered when selection changes.
+ * @param placeholder - Text displayed when no option is selected.
+ * @param multiSelect - When true, allows selecting multiple options.
+ * @param className - Additional CSS classes for the dropdown container.
+ * @param emptyValue - Text displayed when options array is empty.
+ * @param renderOption - Custom renderer for option items.
+ * @param renderValue - Custom renderer for selected value(s).
+ * @param disabled - When true, disables the dropdown interaction.
+ * @param styles - Custom styling for dropdown elements.
+ * @param clearable - When true, displays a button to clear the current selection.
  */
 const Dropdown = ({
 	options,
@@ -34,7 +35,8 @@ const Dropdown = ({
 		listSelectedClass: '',
 		buttonClass: '',
 	},
-}: DropdownProps) => {
+	clearable = false,
+}: DropdownProps & { clearable?: boolean }) => {
 	// Controls visibility of dropdown options list
 	const [isOpen, setIsOpen] = useState(false);
 	// Reference to the dropdown DOM element for handling outside clicks
@@ -115,29 +117,54 @@ const Dropdown = ({
 	};
 
 	/**
-	 * Renders the dropdown button/trigger.
+	 * Clears the current selection.
+	 *
+	 * @param e - React mouse event to prevent propagation.
+	 */
+	const handleClear = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
+		onChange(multiSelect ? null : null);
+	};
+
+	/**
+	 * Renders the dropdown button/trigger along with an optional clear button.
 	 * Displays custom rendered value, selected option label(s), or placeholder.
 	 *
-	 * @returns JSX for the dropdown button.
+	 * @returns JSX for the dropdown button and clear functionality.
 	 */
-	const renderSelectButton = () => (
-		<button
-			type="button"
-			onClick={handleToggler}
-			className={`focus:right px-3 py-2 border rounded focus:outline-none w-full text-left ${styles.buttonClass}`}
-			disabled={disabled}
-		>
-			{renderValue
-				? value !== undefined && value !== null && renderValue(value)
-				: value &&
-					  (!multiSelect ||
-							(multiSelect && (value as DropdownItems[]).length > 0))
-					? multiSelect
-						? (value as DropdownItems[]).map((item) => item.label).join(', ')
-						: (value as DropdownItems).label
-					: placeholder}
-		</button>
-	);
+	const renderSelectButton = () => {
+		// Determine if there is a selection to clear.
+		const hasSelection = multiSelect
+			? Array.isArray(value) && value.length > 0
+			: Boolean(value);
+		return (
+			<button
+				type="button"
+				onClick={handleToggler}
+				className={`px-3 py-2 border rounded focus:outline-none w-full text-left ${styles.buttonClass}`}
+				disabled={disabled}
+			>
+				{renderValue
+					? value !== undefined && value !== null && renderValue(value)
+					: value &&
+						  (!multiSelect ||
+								(multiSelect && Array.isArray(value) && value.length > 0))
+						? multiSelect
+							? (value as DropdownItems[]).map((item) => item.label).join(', ')
+							: (value as DropdownItems).label
+						: placeholder}
+				{clearable && hasSelection && !disabled && (
+					<span
+						onClick={handleClear}
+						className="top-0 right-0 absolute flex justify-center items-center w-[30px] h-full text-inherit"
+						aria-label="Clear selection"
+					>
+						×
+					</span>
+				)}
+			</button>
+		);
+	};
 
 	/**
 	 * Renders the dropdown options list.
@@ -150,7 +177,7 @@ const Dropdown = ({
 			className={`absolute z-10 w-full mt-1 overflow-auto bg-white border rounded shadow-lg max-h-60 ${styles.listClass}`}
 		>
 			{options.length ? (
-				options.map((option: DropdownItems) => (
+				options.map((option) => (
 					<li
 						key={option.value}
 						onClick={() => handleSelect(option)}

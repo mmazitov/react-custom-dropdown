@@ -28,11 +28,14 @@ const App = () => {
 
   return (
     <Dropdown
-      options={options}
-      value={selected}
-      onChange={setSelected}
-      placeholder="Pick a fruit..."
-    />
+			options={options}
+			value={selected}
+			onChange={setSelected}
+			placeholder="Pick a fruit..."
+			emptyValue="Empty"
+			styles={dropdownStyles}
+			clearable
+		/>
   );
 };
 
@@ -209,6 +212,18 @@ const [multiSelected, setMultiSelected] = useState<DropdownItems[]>([]);
 				<code><span>{}</span></code>
 			</td>
 			<td><span>Object for custom styles.</span></td>
+		</tr>
+		<tr>
+			<td>
+				<code><span>clearable</span></code>
+			</td>
+			<td>
+				<code><span>boolean</span></code>
+			</td>
+			<td>
+				<code><span>false</span></code>
+			</td>
+			<td><span>Enables clear button..</span></td>
 		</tr>
 	</tbody>
 </table>
