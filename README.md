@@ -18,16 +18,16 @@ import React, { useState } from 'react';
 import Dropdown, { DropdownItems } from '@your-scope/dropdown';
 
 const options: DropdownItems[] = [
-  { label: 'Apple', value: 'apple' },
-  { label: 'Banana', value: 'banana' },
-  { label: 'Cherry', value: 'cherry' },
+	{ label: 'Apple', value: 'apple' },
+	{ label: 'Banana', value: 'banana' },
+	{ label: 'Cherry', value: 'cherry' },
 ];
 
 const App = () => {
-  const [selected, setSelected] = useState<DropdownItems | null>(null);
+	const [selected, setSelected] = useState<DropdownItems | null>(null);
 
-  return (
-    <Dropdown
+	return (
+		<Dropdown
 			options={options}
 			value={selected}
 			onChange={setSelected}
@@ -36,7 +36,7 @@ const App = () => {
 			styles={dropdownStyles}
 			clearable
 		/>
-  );
+	);
 };
 
 export default App;
@@ -49,11 +49,11 @@ export default App;
 const [multiSelected, setMultiSelected] = useState<DropdownItems[]>([]);
 
 <Dropdown
-  options={options}
-  value={multiSelected}
-  onChange={setMultiSelected}
-  multiSelect
-  placeholder="Select multiple fruits..."
+	options={options}
+	value={multiSelected}
+	onChange={setMultiSelected}
+	multiSelect
+	placeholder="Select multiple fruits..."
 />;
 
 ```
@@ -234,17 +234,17 @@ You can pass a <code>styles</code> prop to customize the dropdown appearance:
 
 ```
 const dropdownStyles = {
-  listClass: 'custom-list-class',
-  listItemClass: 'custom-list-item-class',
-  listSelectedClass: 'bg-gray-100',
-  buttonClass: 'custom-button-class',
+	listClass: 'custom-list-class',
+	listItemClass: 'custom-list-item-class',
+	listSelectedClass: 'bg-gray-100',
+	buttonClass: 'custom-button-class',
 };
 
 <Dropdown
-  options={options}
-  value={selected}
-  onChange={setSelected}
-  styles={dropdownStyles}
+	options={options}
+	value={selected}
+	onChange={setSelected}
+	styles={dropdownStyles}
 />;
 ```
 
