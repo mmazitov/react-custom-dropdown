@@ -10,7 +10,6 @@ const options: DropdownItems[] = [
 	{ label: 'Apple', value: 'apple' },
 	{ label: 'Banana', value: 'banana' },
 	{ label: 'Cherry', value: 'cherry' },
-	{ label: 'Date', value: 'date' },
 ];
 
 // Custom styles for the dropdown component
